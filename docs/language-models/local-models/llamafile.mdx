@@ -1,27 +1,159 @@
 ---
-title: LlamaFile
+title: LlamaFile (2023 setup)
 ---
 
-The easiest way to get started with local models in Open Interpreter is to run `interpreter --local` in the terminal, select LlamaFile, then go through the interactive set up process. This will download the model and start the server for you. If you choose to do it manually, you can follow the instructions below.
+The easiest way to get started with local models in Open Interpreter is to run `interpreter --local` in the terminal, select LlamaFile, 
 
-To use LlamaFile manually with Open Interpreter, you'll need to download the model and start the server by running the file in the terminal. You can do this with the following commands:
+then go through the interactive set up process. This will download the model and start the server for you. 
+
+If you choose to do it manually, you can follow the instructions below.
+
+To use LlamaFile manually with Open Interpreter, you'll need to download the model and start the server by running the file in the terminal. You can do this with the following commands: 
+
+```✅LlamaFile (2024 setup update)
+
+it Was the easiest way when these words above were written, a lot has changed including the download from open interpreter menu of Llamafile option which improved in c
+
+ontradiction to the code snipplet example below, but once downloaded you *must* proceed installing manually:
+
+### Run open-interpreter --local and it will give you options to download models based on your system specs, 
+
+from there your on your own specially if you will download mixtral-8x7b
+
+like the suggested in the example below, *dont*, unless you have 64GB RAM minimum and a GPU, Yes its the best free model IMO 
+
+but... i dont plan to start a dedicated home RAG just for 1 hosting a 8X7b (MOE) model- 
+
+but atm settle on a Tiny model for the first time(s) you try to run a model locally 
+
+
+```
 
 ```bash
 # Download Mixtral
 
-wget https://huggingface.co/jartine/Mixtral-8x7B-v0.1.llamafile/resolve/main/mixtral-8x7b-instruct-v0.1.Q5_K_M-server.llamafile
+  wget https://huggingface.co/jartine/Mixtral-8x7B-v0.1.llamafile/resolve/main/mixtral-8x7b-instruct-v0.1.Q5_K_M-server.llamafile
+  
+  # Make it an executable
+  
+  chmod +x mixtral-8x7b-instruct-v0.1.Q5_K_M-server.llamafile
+  
+  # Start the server
+  
+  ./mixtral-8x7b-instruct-v0.1.Q5_K_M-server.llamafile
+  
+  # In a separate terminal window, run OI and point it at the llamafile server
+  
+  interpreter --api_base https://localhost:8080/v1
+  ```
+  Please note that if you are using a Mac with Apple Silicon, you'll need to have Xcode installed.
 
-# Make it an executable
+-------------------------- 
+```Rz@--April_2024--@6rz6`
 
-chmod +x mixtral-8x7b-instruct-v0.1.Q5_K_M-server.llamafile
+That Example of code above is the perfect conditions, where hugging face is used, and v1 was an industry wide standard and an integral bridging element funtionality of litellm or any apiBase except LMstudio imo, Truley much have changed since,let me scroll up a sec, no idea, probaby last year before they laid these amazing talking eggs and had time for writing tutorials. 
+@theGirlwiththemaleVoice, love your products, your (#1) Really <3 - back to subject, installing open-interpreter with a local llm: 
 
-# Start the server
+### Now in order for the above to work (April 19th 2024) I worked 19-20 hours straight. 
+(and playing and tweaking for the last 3-4 hours, gotta enjoy the outcome) here is the TL;DR:
 
-./mixtral-8x7b-instruct-v0.1.Q5_K_M-server.llamafile
+### Im using Ubuntu 22.x with python 3.10.x on Win10 with WSL2...yeah feel free to grin slightly...until it gets to ppl which are used to eat apples (I read above you had to install something called Xcode..wish i seen your expressions when you read that, they saved the best for last).
 
-# In a separate terminal window, run OI and point it at the llamafile server
+1. The process is broken down to 3 parts **1st install `Opin` ** (my alias for open-interpreter) and make sure you have all the dependencies and basically you get to the chat part with a closed source LLM 
 
-interpreter --api_base https://localhost:8080/v1
-```
+like GPT-x.y-Turbo and above. all you need to do it download the [zip/clone the repo](https://github.com/openinterpreter/open-interpreter/edit/main/docs/language-models/local-models/llamafile.mdx) 
 
-Please note that if you are using a Mac with Apple Silicon, you'll need to have Xcode installed.
+Opin will download chmod and t-r-y to run the server, good luck. 
+
+### Installing *for Real* Open-Interpreter + llama.cpp + litellm + Ollama (optional single threaded and easy)
+
+lest start from the end, the easiest way to self host an LLM server is to get the Ollama docker image and run it no matter what is your OS - turn key solution. If you dont have docker its a 1 click install, 
+
+download [llama/Ollama ](https://github.com/
+
+Ollama/Ollama) repo for python, and your good to go locally (default server is localhost) Once downloaded it will expose for you an endpoint, *port 11434* you point to that port your interpreter usign -ab 
+
+(localhost in words or your IP:Port for the api_base thats it) when I run it locally I prefer to use the numeric IP form since i dont expose my locahost to the external IP directly from choise you can use 'http://localhost:11434' or 'http://127.0.0.1:11434' or 'https' if your concerened of your 
+
+privacy and you use the -o switch in Opin using this single CLI command to serve any app:  ```\n Opin -o -ab http://IP:PORT \n``` (btw, this setup works smoothly across all the arsenal of open source projects I work with serving  remotly self hosted 
+
+both Ollama and Llama.cpp working back2back on a humble 4CPUs 8GB of RAM VM which now you can also setup using the 3 lines above exactly the same way as i do - using only a Single remote IP:PORT and eqiuept with a 200GB SSD. Ollama is simple n easy.
+
+(Saying that, will stay on subject and gladly will share the 4 CLI commands which makes this `devops lifehack` possible)
+
+2. Now that Opin is running and you set verbose (opin -v in cli) it starts to encounter and over come an insame amount of issues it encouters and throws exeptions you cant begin to understand, its time to *refubrish the dependencies:*
+   ```Run f
+        the llmma cpp file as described above, you can get it from hugging face (HF) or from the mistral.ai website,            
+        run the chmod +x and verify as explained above and x will be added to the r/w permissions redering it to be executeable).
+
+        Next you will need to install a CLI browser using ```sudo apt install [browserName] (chromium works
+        well for me, also X11 might be needed to install i got some error related to it on my first runs and apt-get updated it). 
+        
+  # Next proceed to configuring LiteLLM, do not launch yet the code. be patient.
+
+        This section use an open source model requires to fine tune the LLM using very correct and also totaly
+        different << system >> and <<custom_instructions>> that the usual put your OPENAI_API_KEY in the env and drive safley.
+        In the case of Almost ALL the other LLMs which didnt had backup from the top five Forbes 500 Titans including Nvidiaa and started both with less information since they didnt start the 1st One of its          kind service like 1GB emails, or social network with actual people, or not even the first online worldwide trusted payment solution / reusable space launchers / first home OS or not even the first            full touch based smartphone and all but1 immedietly created using tons of accumilated user and public data backed up by enough capital to push back any copyrights laws suits they created or rather            say Aquired the majority of the best GPUs and grabbed all the publicly available copyrighted data - thus leaving back in the dust bright groups of great minds like a cartel which pushes out the               competition causing de facto 2 major `flaws` to organizations which had the knowledge and man power but lacked the resurces and the capital to match the titans at a fixed game.
+        
+        causing for us the comsumers 1 slower responses from their models when tested head to head due to less training in means of computing power due to less resources and more important since for the              normal person which uses the ai to ask to build him a flight plan most of the people dont run yet AI research and dev Crews it allowed them to catch up and release in a form of open source the                models themself cutting both in time and investment in cumputing by using the power of the people and settling with the current situtaion allowing us to use for free amazing models while we as users          train and optimize their LLMs which leaves most both in time and capital leaving the impossible goal of beating the competition and grabbing their parts of the AI/LLM niche entrusting the work and            time in our hands, us power users. So if you want the best experience of being a end user, use a gpt4.x-date-preview and get amazing results fast with full competability and minimum mistake                   rates (done it for the last year, total damage, around 90$ a month cost keeping in mind there was no alternative. 
+
+# Now we do, just follow step by step I will try to spoonfeed the process, and do my best to leave you with just copy paste:
+
+     - Set an ```\n Alias OpinLocoLLM='interpreter --profile="default.yaml" ```' <Press Enter> 
+
+      now we have 2 aliases: ```Aliases:
+      
+      Opin = 'interpreter' ``` and ``` OpinLocoLLM = "Opin --profile="default.yaml" 
+                                                                                   ```
+
+     - Interpreter --profile <Enter> -> It will output the profiles folder -> Next edit using Nano/Vim default.yaml:
+     - nano ~/.config/open-interpreter/profiles/default.yaml and copy paste from here:
+       ```Local_Llama_defaults.yaml
+           ### OPEN INTERPRETER CONFIGURATION FILE
+    # Remove the "#" before the settings below to use them.
+        
+        llm:
+          # model: "gpt-3.5-turbo"
+          model: "Llamafile/TinyLlama-1.1B-Chat-v1.0.Q5_K_M.llamafile"
+          temperature: 0.6
+          api_key: "FakeXXX"  # Your API key, if the API requires it
+          api_base: "http://YOUR_IP:PORT/v1"  # The URL where an OpenAI-compatible server is>  
+          # api_version:     # The version of the API (this is primarily for Azure)
+          max_output: 1000   # The maximum characters of code output visible to the LLM
+          context_window: 3000 # (i will drop a link to it below). Generally it starts like this: 
+          # custom_instructions: <- leave it *remarked* for now the tiny model cant handle such a large context. 
+          # You have the ability to run and shell command and write python code. 
+          # you must do it "You are a with complete control over a Linux system ubuntu. 
+          # THIS WAY: ```CLI\n $myCLIcommands \n\n``` for the computer to understand.from here it gets its very long...
+          auto_run: False   # If True, code will run without asking for confirmation
+          safe_mode: "ask"  # The safety mode for the LLM — one of "off", "ask", "auto"
+          offline: True     # If True, will disable some online features like checking for updates
+          verbose: False    # If True, will print detailed log on a different tab if you have one open on the same dir
+          multi_line: True  # If True, you can input multiple lines starting and ending with """
+
+        # All options: https://docs.openinterpreter.com/settings
+        version: 0.2.1  # Profile version (do not modify) 
+
+      ```
+   SAVE & Exit 
+
+3. Next    -> nano System.yaml <Enter> it will create the file which doesn't exist. we need to change it to make open
+     source LLMs `Comprande de system message` by replacing with the similar code and unrelated to super users default
+     commands and syntax, this is the HEART of the interpreter, if you get 1 char wrong below the LLM can't EXECUTE :
+
+                          ```CLI \n\n $your_commands_for_Linux_and_Python_coding \n\n``` 
+
+     I will reference a link to the original system message and share gladly fine tuned version so you will just copy 
+     paste and enjoy life (that is the tl;dr version lol) imagine discovering step by  step every character to make it 
+     work or it breaks (since open-interpreter force shoves the word prompt to the 1st line of the system message, and 
+     some more required fields for litellm, which took me a while to neuro surgically remove and adapt my code to some
+     
+     start your co-pilot or coding assistant in VScode. and open the project, relax, if your having an emergecfu moments
+     of fraustration, dont take it out on anybody around you, its hard but try 2b a+1 in the generally when possible, 
+     Honestly I take it out on the LLM, he apologizes, it calms me down.
+
+4. Almost Done
+
+     Open LitellM and clone / sync the repo or pip install --upgrade it to *view using Verbose exactly the failure points between the 3 main elements*, 
+
+     OpIn -The client(sync, single thread)  Litellm API bridge - (Async Multhitread) Async server Llamma.cpp file (Async Multithreaded LLM server)
